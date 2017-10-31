@@ -3,7 +3,11 @@
 import CHIP_IO.GPIO as GPIO
 import warnings
 
+
 class SevSeg:
+
+	# CLASS FOR HANDLING 7 segment display. Default pin connections are as follows.
+
 	_g="XIO-P0"
 	_f="XIO-P1"
 	_a="XIO-P2"
