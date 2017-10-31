@@ -14,6 +14,15 @@ class SevSeg:
 	_h="XIO-P7"
 
 	def __init__(self, g=_g, f=_f, a=_a, b=_b, e=_e, d=_d, c=_c, h=_h):
+		
+		self.a=a
+		self.b=b
+		self.c=c
+		self.d=d
+		self.e=e
+		self.f=f
+		self.g=g
+		self.h=h
 		self.pins = [a,b,c,d,e,f,g,h]
 		self.setup(self.pins) 
 		return None		
@@ -40,15 +49,28 @@ class SevSeg:
 			self.off(notpins)
 			self.on(pins)
 
-g="XIO-P0"
-f="XIO-P1"
-a="XIO-P2"
-b="XIO-P3"
-e="XIO-P4"
-d="XIO-P5"
-c="XIO-P6"
-h="XIO-P7"
-
-mypins = [a,b,c]
-toy = SevSeg(g,f,a,b,e,d,c,h)
-toy.glow_these(mypins)
+	# Numbers
+	def digit(self, digit=7):
+		if digit == 1 or digit == '1':
+			self.glow_these([self.b, self.c])
+		elif digit == 2 or digit == '2':
+                        self.glow_these([self.a, self.b, self.g, self.e, self.d])
+		elif digit == 3 or digit == '3':
+                        self.glow_these([self.a, self.b, self.g, self.c, self.d])
+		elif digit == 4 or digit == '4':
+                        self.glow_these([self.f, self.b, self.g, self.c])
+		elif digit == 5 or digit == '5':
+                        self.glow_these([self.a, self.f, self.g, self.c, self.d])
+		elif digit == 6 or digit == '6':
+                        self.glow_these([self.f, self.a, self.c, self.g, self.e, self.d])
+		elif digit == 7 or digit == '7':
+                        self.glow_these([self.a, self.b, self.c])
+		elif digit == 8 or digit == '8':
+			self.glow_these([self.a, self.b, self.c, self.d, self.e, self.f, self.g])
+		elif digit == 9 or digit == '9':
+			self.glow_these([self.a, self.b, self.g, self.f, self.c])
+		elif digit == 0 or digit == '0':
+			self.glow_these([self.a, self.b, self.c, self.d, self.e, self.f])
+		else:
+			self.glow_these([self.h])
+		return None
