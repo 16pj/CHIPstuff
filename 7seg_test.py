@@ -22,10 +22,14 @@ if __name__ == '__main__':
 	mypins = [a, f, e, d]
 
 	# to glow a set of pins
-	toy.glow_these(mypins)
+	#toy.glow_these(mypins)
 
 	# to glow a set of pins without complement
 	#toy.glow_these(mypins, comp=True)
 
 	# to display digits from [0-9]
 	#toy.digit(7)
+	
+	# to display characters from [a-z] with missing characters
+	import sys
+        toy.character(str(sys.argv[1]))

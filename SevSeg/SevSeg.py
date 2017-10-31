@@ -49,7 +49,7 @@ class SevSeg:
 			self.off(notpins)
 			self.on(pins)
 
-	# Numbers
+	# Numbers [0-9]
 	def digit(self, digit=7):
 		if digit == 1 or digit == '1':
 			self.glow_these([self.b, self.c])
@@ -71,6 +71,54 @@ class SevSeg:
 			self.glow_these([self.a, self.b, self.g, self.f, self.c])
 		elif digit == 0 or digit == '0':
 			self.glow_these([self.a, self.b, self.c, self.d, self.e, self.f])
+		else:
+			self.glow_these([self.h])
+		return None
+
+	# Characters (attempt)
+	def character(self, char='a'):
+		if char.lower() == 'a':
+                        self.glow_these([self.a, self.b, self.c, self.e,self.f, self.g])
+                elif char.lower() == 'b':
+			self.glow_these([self.c, self.d, self.e,self.f, self.g])
+		elif char.lower() == 'c':
+			self.glow_these([self.a, self.d, self.e, self.f])
+		elif char.lower() == 'd':
+			self.glow_these([self.b, self.c, self.d, self.e, self.g])
+		elif char.lower() == 'e':
+			self.glow_these([self.a, self.d, self.e, self.f, self.g])
+		elif char.lower() == 'f':
+			self.glow_these([self.a, self.e, self.f, self.g])
+		elif char.lower() == 'g':
+			self.glow_these([self.a, self.b, self.c, self.d, self.f, self.g])
+		elif char.lower() == 'h':
+			self.glow_these([self.c, self.e, self.f, self.g])
+		elif char.lower() == 'i':
+			self.glow_these([self.b, self.c])
+		elif char.lower() == 'j':
+			self.glow_these([self.b, self.c, self.d])
+		elif char.lower() == 'l':
+			self.glow_these([self.d, self.e, self.f])
+		elif char.lower() == 'n':
+			self.glow_these([self.c, self.d, self.e, self.g])
+		elif char.lower() == 'o':
+			self.glow_these([self.a, self.b, self.c, self.d, self.e, self.f])
+		elif char.lower() == 'p':
+			self.glow_these([self.a, self.b, self.e, self.f, self.g])
+		elif char.lower() == 'r':
+			self.glow_these([self.e, self.g])
+		elif char.lower() == 's':
+			self.glow_these([self.a, self.c, self.d, self.f, self.g])
+		elif char.lower() == 't':
+			self.glow_these([self.d, self.e, self.f, self.g])
+		elif char.lower() == 'u':
+			self.glow_these([self.b, self.c, self.d, self.e, self.f])
+		elif char.lower() == 'x':
+			self.glow_these([self.b, self.c, self.e, self.f, self.g])
+		elif char.lower() == 'y':
+			self.glow_these([self.b, self.c, self.d, self.f, self.g])
+		elif char.lower() == 'z':
+			self.glow_these([self.a, self.b, self.d, self.e, self.g])
 		else:
 			self.glow_these([self.h])
 		return None
