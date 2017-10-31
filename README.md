@@ -5,3 +5,5 @@ Scripting my plays with a CHIP development board. Written in Python3
 
 2. SevSeg/SevSeg.py : library for using 7 segment display.
    7seg_test.py : script for testing SevSeg (digits, characters etc)
+
+3. Analog_led : scripts that glow two leds at different rates depending on two analog inputs
