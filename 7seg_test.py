@@ -14,6 +14,15 @@ mypins = [a,b,c]
 toy = SevSeg(g,f,a,b,e,d)
 toy.glow_these(mypins)
 
+def timer(obj, speed=1, stop=10):
+        import time
+        i=1
+        while stop > 0:
+                obj.digit(i%10)
+                time.sleep(float(1/speed))
+                i += 1
+                stop -= 1
+
 if __name__ == '__main__':
 	# instantiate with or without pins in given order
 	toy = SevSeg(g,f,a,b,e,d)
@@ -32,3 +41,7 @@ if __name__ == '__main__':
 	
 	# to display characters from [a-z] with missing characters
 	#toy.character('p')
+
+	# to count for 't' seconds and at 's' speed; timer(obj, speed=s, stop=t)
+	timer(toy, speed=3, stop=30)
+
