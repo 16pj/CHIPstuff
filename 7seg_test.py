@@ -31,5 +31,4 @@ if __name__ == '__main__':
 	#toy.digit(7)
 	
 	# to display characters from [a-z] with missing characters
-	import sys
-        toy.character(str(sys.argv[1]))
+	#toy.character('p')

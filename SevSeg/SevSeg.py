@@ -79,7 +79,7 @@ class SevSeg:
 	def character(self, char='a'):
 		if char.lower() == 'a':
                         self.glow_these([self.a, self.b, self.c, self.e,self.f, self.g])
-                elif char.lower() == 'b':
+		elif char.lower() == 'b':
 			self.glow_these([self.c, self.d, self.e,self.f, self.g])
 		elif char.lower() == 'c':
 			self.glow_these([self.a, self.d, self.e, self.f])
