@@ -31,9 +31,9 @@ def send_out(signal, output=None):
     if output is not None:
         GPIO.output(output, signal)
         if signal == 1:
-            name = take_video()
+            name = take_pic()
             if name is not None:
-                print 'video {0} taken!'.format(name)
+                print 'pic {0} taken!'.format(name)
     else:
         print(signal)
 
@@ -45,13 +45,22 @@ def take_video(video_name=None, timeout=None):
     if timeout is None:
         # timeout in milliseconds
         timeout = 2 * 1000
-        #cmd = 'mkdir -p vids; raspivid -n -t {0} -o vids/{1}' \
+        # cmd = 'mkdir -p vids; raspivid -n -t {0} -o vids/{1}' \
         #      .format(timeout, video_name)
         cmd = 'mkdir -p vids; raspivid -t {0}' \
               .format(timeout)
         print cmd
         os.system(cmd)
         return video_name
+
+
+def take_pic(pic_name=None):
+    if pic_name is None:
+        pic_name = str(time.time()) + '.jpg'
+
+    cmd = 'mkdir -p pics; raspistill -n -t 3000 -o pics/{0}'.format(pic_name)
+    os.system(cmd)
+    return pic_name
 
 
 def start_system(input, output=None, wait=None):
