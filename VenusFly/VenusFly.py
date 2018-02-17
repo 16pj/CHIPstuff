@@ -29,11 +29,11 @@ def check_input(input):
 
 def send_out(signal, output=None):
     if output is not None:
-        # GPIO.output(output, signal)
-        #name = take_video()
-        name = 'click'
-        if name is not None:
-            print 'video {0} taken!'.format(name)
+        GPIO.output(output, signal)
+        if signal == 1:
+            name = take_video()
+            if name is not None:
+                print 'video {0} taken!'.format(name)
     else:
         print(signal)
 
@@ -44,9 +44,12 @@ def take_video(video_name=None, timeout=None):
 
     if timeout is None:
         # timeout in milliseconds
-        timeout = 5 * 1000
-        cmd = 'mkdir -p vids; raspivid -t {0} -o vids/{1}' \
-              .format(timeout, video_name)
+        timeout = 2 * 1000
+        #cmd = 'mkdir -p vids; raspivid -n -t {0} -o vids/{1}' \
+        #      .format(timeout, video_name)
+        cmd = 'mkdir -p vids; raspivid -t {0}' \
+              .format(timeout)
+        print cmd
         os.system(cmd)
         return video_name
 
@@ -58,7 +61,11 @@ def start_system(input, output=None, wait=None):
     while True:
         time.sleep(wait)
         if (check_input(input) == 1):
-            send_out(1, output)
+            time.sleep(1)
+            print 'one'
+            if (check_input(input) == 1):
+                print 'two'
+                send_out(1, output)
         else:
             send_out(0, output)
 
