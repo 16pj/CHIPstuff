@@ -20,6 +20,16 @@ def setup_step(input, output=None):
         GPIO.setup(output, GPIO.OUT)
 
 
+def execute(cmd):
+    log(cmd)
+    os.system(cmd)
+
+
+def log(msg):
+    final_msg = 'VenusFly : {0} : {1}'.format(msg, time.ctime())
+    print(final_msg)
+
+
 def check_input(input):
     if (GPIO.input(input) == 1):
         return 1
@@ -33,9 +43,9 @@ def send_out(signal, output=None):
         if signal == 1:
             name = take_pic()
             if name is not None:
-                print '{0} file created!'.format(name)
+                log('{0} file created!'.format(name))
     else:
-        print(signal)
+        log(signal)
 
 
 def take_video(video_name=None, timeout=None):
@@ -45,11 +55,11 @@ def take_video(video_name=None, timeout=None):
     if timeout is None:
         # timeout in milliseconds
         timeout = 2 * 1000
-        cmd = 'mkdir -p vids; raspivid -n -t {0} -o vids/{1}' \
-              .format(timeout, video_name)
-        print cmd
-        os.system(cmd)
-        return video_name
+
+    cmd = 'mkdir -p vids; raspivid -n -t {0} -o vids/{1}' \
+          .format(timeout, video_name)
+    execute(cmd)
+    return video_name
 
 
 def take_pic(pic_name=None):
@@ -57,7 +67,7 @@ def take_pic(pic_name=None):
         pic_name = str(time.time()) + '.jpg'
 
     cmd = 'mkdir -p pics; raspistill -n -t 3000 -o pics/{0}'.format(pic_name)
-    os.system(cmd)
+    execute(cmd)
     return pic_name
 
 
@@ -69,9 +79,7 @@ def start_system(input, output=None, wait=None):
         time.sleep(wait)
         if (check_input(input) == 1):
             time.sleep(1)
-            print 'one'
             if (check_input(input) == 1):
-                print 'two'
                 send_out(1, output)
         else:
             send_out(0, output)
