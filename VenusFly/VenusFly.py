@@ -2,8 +2,8 @@ import RPi.GPIO as GPIO
 import time
 import os
 
-'''Requires a camera module to be connected and the input from pir sensor.
-Output to led is option but supported.
+'''Requires a camera module to be connected and the input from PIR sensor.
+Output to LED is an option but supported.
 
 Default input pin: 11
 Default output pin: 12'''
@@ -21,6 +21,7 @@ def setup_step(input, output=None):
 
 
 def execute(cmd):
+    # can be replaced with subprocess or other
     log(cmd)
     os.system(cmd)
 
@@ -41,6 +42,7 @@ def send_out(signal, output=None):
     if output is not None:
         GPIO.output(output, signal)
         if signal == 1:
+            # principle action when detected
             name = take_pic()
             if name is not None:
                 log('{0} file created!'.format(name))
@@ -76,6 +78,7 @@ def start_system(input, output=None, wait=None):
         wait = 0.01
 
     while True:
+        # check true then wait and check again to confirm detection
         time.sleep(wait)
         if (check_input(input) == 1):
             time.sleep(1)
@@ -89,5 +92,7 @@ if __name__ == '__main__':
     inPin = 11
     outPin = 12
     wait = 0.01
+
+    # provide outPin only if LED output required
     setup_step(inPin, outPin)
     start_system(inPin, outPin, wait=wait)
