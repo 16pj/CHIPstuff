@@ -33,7 +33,7 @@ def send_out(signal, output=None):
         if signal == 1:
             name = take_pic()
             if name is not None:
-                print 'pic {0} taken!'.format(name)
+                print '{0} file created!'.format(name)
     else:
         print(signal)
 
