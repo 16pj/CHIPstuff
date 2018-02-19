@@ -56,7 +56,7 @@ def take_video(video_name=None, timeout=None):
 
     if timeout is None:
         # timeout in milliseconds
-        timeout = 2 * 1000
+        timeout = 10 * 1000
 
     cmd = 'mkdir -p vids; raspivid -n -t {0} -o vids/{1}' \
           .format(timeout, video_name)
