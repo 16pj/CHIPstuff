@@ -1,6 +1,7 @@
 import RPi.GPIO as GPIO
 import time
 import os
+import inspect
 
 '''Requires a camera module to be connected and the input from PIR sensor.
 Output to LED is an option but supported.
@@ -27,7 +28,11 @@ def execute(cmd):
 
 
 def log(msg):
-    final_msg = 'VenusFly : {0} : {1}'.format(msg, time.ctime())
+    final_msg = "{0}: VenusFly : {1} : {2}\n"\
+                .format(time.ctime(), inspect.stack()[1][3], msg)
+
+    with open('flypaper.log', 'a') as f:
+        f.write(final_msg)
     print(final_msg)
 
 

@@ -28,17 +28,13 @@ class myThread (threading.Thread):
         self.wait = wait
 
     def run(self):
-        print "Starting " + self.name
+        fly.log("Unholstering " + self.name)
         fireitup(self.name, self.inPin, self.outPin, self.wait)
-        print "Exiting " + self.name
+        fly.log("Holstering  " + self.name)
 
 
-@app.route("/")
-def welcome():
-    return "Welcome to VenusFly!"
+def fireitup(threadName, inPin, output=None, wait=None):
 
-
-def fireitup(threadName, input, output=None, wait=None):
     global exitFlag
     exitFlag = 0
     global lock
@@ -48,6 +44,8 @@ def fireitup(threadName, input, output=None, wait=None):
     if lock == 'locked':
         exit()
 
+    fly.log('Firing Engines up!')
+
     while True:
         lock = 'locked'
         if exitFlag:
@@ -56,9 +54,9 @@ def fireitup(threadName, input, output=None, wait=None):
             exit()
         # check true then wait and check again to confirm detection
         time.sleep(wait)
-        if (fly.check_input(input) == 1):
+        if (fly.check_input(inPin) == 1):
             time.sleep(1)
-            if (fly.check_input(input) == 1):
+            if (fly.check_input(inPin) == 1):
                 fly.send_out(1, output)
         else:
             fly.send_out(0, output)
@@ -76,9 +74,15 @@ def start_system():
 
 
 def stop_system():
+    fly.log('Stopping VenusFly system')
     global exitFlag
     exitFlag = 1
     return True
+
+
+@app.route("/")
+def welcome():
+    return "Welcome to VenusFly!"
 
 
 @app.route("/start")
@@ -103,12 +107,13 @@ def click():
     startFlag = False
     if lock == 'locked':
         startFlag = True
+        lock == 'unlocked'
     stop_system()
     name = fly.take_pic()
     fly.log('pic {0} taken'.format(name))
     if startFlag is True:
         start_system()
-    return "Say Cheese!"
+    return "Picture Taken!"
 
 
 @app.route("/record")
@@ -117,12 +122,22 @@ def video():
     startFlag = False
     if lock == 'locked':
         startFlag = True
+        lock == 'unlocked'
     stop_system()
     name = fly.take_video()
     fly.log('video {0} taken'.format(name))
     if startFlag is True:
         start_system()
-    return "Shake it!"
+    return "Video Recorded!"
+
+
+@app.route("/status")
+def status():
+    global lock
+    if lock == 'locked':
+            return "System is Fired Up"
+    else:
+        return "System is not Fired Up"
 
 
 if __name__ == '__main__':
