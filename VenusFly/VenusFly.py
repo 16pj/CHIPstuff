@@ -31,7 +31,7 @@ def log(msg):
     final_msg = "{0}: VenusFly : {1} : {2}\n"\
                 .format(time.ctime(), inspect.stack()[1][3], msg)
 
-    with open('flypaper.log', 'a') as f:
+    with open('/home/pi/flypaper.log', 'a') as f:
         f.write(final_msg)
     print(final_msg)
 

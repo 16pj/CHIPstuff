@@ -1,0 +1,13 @@
+# Copy this file to /etc/systemd/system/
+
+[Unit]
+
+After = dhcpcd5.service
+
+[Service]
+
+ExecStart = /home/pi/CHIPstuff/VenusFly/scripts/start.sh
+
+[Install]
+
+WantedBy = multi-user.target
