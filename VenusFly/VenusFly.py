@@ -9,6 +9,14 @@ Output to LED is an option but supported.
 Default input pin: 11
 Default output pin: 12'''
 
+default_log_file = '/home/pi/CHIPstuff/VenusFly/flypaper.log'
+PIC_PATH = '/home/pi/CHIPstuff/VenusFly/static/pics'
+VID_PATH = '/home/pi/CHIPstuff/VenusFly/static/vids'
+DEFAULT_VIDEO_TIMEOUT = 15 #seconds
+IP='192.168.0.73'
+PORT=5000
+
+
 
 def setup_step(input, output=None):
     GPIO.setwarnings(False)
@@ -27,13 +35,20 @@ def execute(cmd):
     os.system(cmd)
 
 
-def log(msg):
+def log(msg, log_file=default_log_file):
     final_msg = "{0}: VenusFly : {1} : {2}\n"\
                 .format(time.ctime(), inspect.stack()[1][3], msg)
 
-    with open('/home/pi/flypaper.log', 'a') as f:
+    with open(log_file, 'a') as f:
         f.write(final_msg)
     print(final_msg)
+
+
+def unlog(log_file=default_log_file):
+    log = ""
+    with open(log_file, 'r') as f:
+        log = f.read()
+    return log
 
 
 def check_input(input):
@@ -61,10 +76,10 @@ def take_video(video_name=None, timeout=None):
 
     if timeout is None:
         # timeout in milliseconds
-        timeout = 10 * 1000
+        timeout = DEFAULT_VIDEO_TIMEOUT * 1000
 
-    cmd = 'mkdir -p vids; raspivid -n -t {0} -o vids/{1}' \
-          .format(timeout, video_name)
+    cmd = 'mkdir -p {1}; raspivid -n -t {0} -o {1}/{2}' \
+          .format(timeout,VID_PATH, video_name)
     execute(cmd)
     return video_name
 
@@ -73,7 +88,7 @@ def take_pic(pic_name=None):
     if pic_name is None:
         pic_name = str(time.time()) + '.jpg'
 
-    cmd = 'mkdir -p pics; raspistill -n -t 3000 -o pics/{0}'.format(pic_name)
+    cmd = 'mkdir -p {0}; raspistill -n -t 3000 -o {0}/{1}'.format(PIC_PATH, pic_name)
     execute(cmd)
     return pic_name
 

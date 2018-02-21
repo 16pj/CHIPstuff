@@ -1,4 +1,4 @@
-from flask import Flask
+from flask import Flask, url_for
 import VenusFly as fly
 import threading
 import time
@@ -80,6 +80,20 @@ def stop_system():
     return True
 
 
+def get_image_url(image):
+    image_uri = "http://{0}:{1}{2}".format(fly.IP, fly.PORT, url_for('static', filename=image)).replace('static/', 'static/pics/')    
+    html_image = '<img src="{0}">'.format(image_uri)
+    #fly.log(image_uri)
+    return html_image
+
+
+def get_video_url(video):
+    video_uri = "http://{0}:{1}{2}".format(fly.IP, fly.PORT, url_for('static', filename=video)).replace('static/', 'static/vids/')
+    html_video = '<a href="{0}" download>download here!</a>'.format(video_uri)
+    #fly.log(image_uri)
+    return html_video
+
+
 @app.route("/")
 def welcome():
     return "Welcome to VenusFly!"
@@ -108,12 +122,12 @@ def click():
     if lock == 'locked':
         startFlag = True
         lock == 'unlocked'
-    stop_system()
+        stop_system()
     name = fly.take_pic()
     fly.log('pic {0} taken'.format(name))
     if startFlag is True:
         start_system()
-    return "Picture Taken!"
+    return "Picture {0} Taken!<br> {1}".format(name, get_image_url(name))
 
 
 @app.route("/record")
@@ -123,12 +137,12 @@ def video():
     if lock == 'locked':
         startFlag = True
         lock == 'unlocked'
-    stop_system()
+        stop_system()
     name = fly.take_video()
     fly.log('video {0} taken'.format(name))
     if startFlag is True:
         start_system()
-    return "Video Recorded!"
+    return "Video {0} Recorded!<br> {1}".format(name, get_video_url(name))
 
 
 @app.route("/status")
@@ -138,6 +152,13 @@ def status():
             return "System is Fired Up"
     else:
         return "System is not Fired Up"
+
+
+@app.route("/unlog")
+def unlogger():
+    # get logs with html breaks for readability
+    log_string = str(fly.unlog()).replace('\n', '<br>')
+    return log_string
 
 
 if __name__ == '__main__':
